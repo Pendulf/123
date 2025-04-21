@@ -27,6 +27,7 @@ class _WeatherPageState extends State<WeatherPage> {
       });
     } catch (e) {
       print(e);
+      print(e);
     }
   }
 
