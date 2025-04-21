@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:flutter_application_1/service/weather_service.dart';
+import 'package:weather_app/service/weather_service.dart';
 import '../models/weather_model.dart';
 
 class WeatherPage extends StatefulWidget {
@@ -27,7 +27,6 @@ class _WeatherPageState extends State<WeatherPage> {
       });
     } catch (e) {
       print(e);
-      print(e);
     }
   }
 
@@ -38,10 +37,37 @@ class _WeatherPageState extends State<WeatherPage> {
     fetchWeather();
   }
 
+// weather animation
+  String weatherAnimation(String? weatherCondition) {
+    if (weatherCondition == null) {
+      return "assets/sunny.json";
+    }
+    switch (weatherCondition.toLowerCase()) {
+      case "clouds":
+      case "mist":
+      case "haze":
+      case "smoke":
+      case "dust":
+      case "fog":
+        return "assets/cloudy.json";
+      case "rain":
+      case "shower rain":
+      case "drizzle":
+        return "assets/shower.json";
+      case "thunderstorm":
+        return "assets/thunder.json";
+      case "clear":
+        return "assets/sunny.json";
+      default:
+        return "assets/sunny.json";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black12,
+        
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -54,7 +80,8 @@ class _WeatherPageState extends State<WeatherPage> {
                     fontSize: 25,
                     fontWeight: FontWeight.bold),
               ),
-
+              Lottie.asset(weatherAnimation(_weather?.mainCondition)),
+              
               // city temperature
               Text(
                 "${_weather?.temperature.round() ?? ""}°C",
@@ -64,6 +91,7 @@ class _WeatherPageState extends State<WeatherPage> {
                     fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 5),
+              
               //weather condition
               Text(
                 "${_weather?.mainCondition}",
@@ -72,6 +100,7 @@ class _WeatherPageState extends State<WeatherPage> {
                     fontSize: 25,
                     fontWeight: FontWeight.bold),
               )
+              
             ],
           ),
         ));
